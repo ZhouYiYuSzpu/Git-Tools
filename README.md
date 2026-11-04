@@ -94,7 +94,24 @@ result/extracted/<提交哈希>/
 
 工具不会覆盖已存在且非空的同名提交目录。缺失的 tree、blob 和子模块会在终端列出；符号链接以 blob 内容作为普通文件导出，不创建系统链接。
 
-如果希望收集时直接导出所有已发现的提交，可在第一步命令后添加 `--extract-all`；也可以用 `--extract 哈希` 指定提交，该选项可以重复使用。收集阶段导出时的缺失信息会写入 `summary.json`。
+### 收集时导出与离线导出的区别
+
+| 使用场景 | 命令写法 | 含义 |
+| --- | --- | --- |
+| 已经收集完，离线导出所有提交 | `git_find.py extract 结果目录 all` | 从本地数据导出，不请求目标 |
+| 已经收集完，离线导出指定提交 | `git_find.py extract 结果目录 提交哈希` | 从本地数据导出指定提交 |
+| 收集时导出所有提交 | `git_find.py 目标网址 输出目录 --extract-all` | 先收集，再导出已发现的提交 |
+| 收集时导出指定提交 | `git_find.py 目标网址 输出目录 --extract 提交哈希` | 先收集，再导出指定提交；选项可重复 |
+
+例如，收集时直接导出所有提交：
+
+```powershell
+& '.\venv\Scripts\python.exe' .\git_find.py 'http://127.0.0.1:8080' '.\new-result' --extract-all
+```
+
+`extract` 是离线导出操作的名称，必须作为脚本后的第一个参数，且不带 `--`；`all` 是该操作的位置参数，也不带 `--`。`--extract` 和 `--extract-all` 是收集模式的选项，仍需提供目标网址和新的或空的输出目录。收集阶段导出的缺失信息会写入 `summary.json`。
+
+如果运行 `git_find.py --extract .\result --all`，程序会进入收集模式并提示缺少 `url` 和 `directory`；离线导出请使用上面的 `extract .\result all`。
 
 ## 常用选项
 
