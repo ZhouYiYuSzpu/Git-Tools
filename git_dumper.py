@@ -79,7 +79,7 @@ def verify_response(response, any_status=False):
         )
     elif (
         "Content-Length" in response.headers
-        and response.headers["Content-Length"] == 0
+        and response.headers["Content-Length"] == "0"
     ):
         return False, "[-] %s/%s responded with a zero-length body\n"
     elif (
