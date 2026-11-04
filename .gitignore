@@ -5,5 +5,5 @@ __pycache__/
 *.py[cod]
 
 # 运行结果和临时文件
-./result/
-./tmp/
+/result/
+/tmp/
